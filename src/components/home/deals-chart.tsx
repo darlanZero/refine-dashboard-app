@@ -1,12 +1,12 @@
 import { DollarOutlined } from '@ant-design/icons'
 import { Card } from 'antd'
 import { Text } from '../text'
-import { Area } from '@ant-design/plots'
+import { Area, AreaConfig } from '@ant-design/plots'
 
 const DealsChart = () => {
 
-  const config = {
-
+  const config: AreaConfig = {
+    data: []
   }
 
   return (
