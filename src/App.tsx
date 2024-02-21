@@ -1,4 +1,4 @@
-import { Authenticated, GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
+import { Authenticated, GitHubBanner, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -6,7 +6,7 @@ import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 
 import { authProvider, dataProvider, liveProvider } from "./providers";
-import {CompanyList, ForgotPassword, Home, Login, Register} from "./pages";
+import {CompanyList, CreatePage, ForgotPassword, Home, Login, Register} from "./pages";
 import routerBindings, {
   CatchAllNavigate,
   DocumentTitleHandler,
@@ -56,7 +56,10 @@ function App() {
                     }
                   >
                     <Route index element={<Home />} />
-                    <Route path="/companies" element={<CompanyList />} />
+                    <Route path="/companies" >
+                      <Route index element={<CompanyList />} />
+                      <Route path="new" element={<CreatePage />} />
+                    </Route>
                   </Route>
                 </Routes>
                 <RefineKbar />
