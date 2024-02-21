@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomAvatar from "@/components/custom-avatar"
 import { Text } from "@/components/text"
 import { COMPANIES_LIST_QUERY } from "@/graphql/queries"
@@ -14,8 +15,34 @@ export const CompanyList = () => {
 
   const {tableProps, filters} = useTable({
     resource: 'companies',
+    onSearch: (values: any) => {
+      return [
+        {
+          field: 'name',
+          operator: 'contains',
+          value: values.name
+        }
+      ]
+    },
     pagination: {
       pageSize: 12
+    },
+    sorters : {
+      initial: [
+        {
+          field: 'createdAt',
+          order: 'desc'
+        }
+      ]
+    },
+    filters: {
+      initial: [
+        {
+          field: 'name',
+          operator: 'contains',
+          value: undefined
+        }
+      ]
     },
     meta: {
       gqlQuery: COMPANIES_LIST_QUERY,
