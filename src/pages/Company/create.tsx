@@ -1,9 +1,10 @@
 
 import { CompanyList } from './list'
-import { Form, Input, Modal } from 'antd'
-import { useModalForm } from '@refinedev/antd';
+import { Form, Input, Modal, Select } from 'antd'
+import { useModalForm, useSelect } from '@refinedev/antd';
 import { useGo } from '@refinedev/core';
 import { CREATE_COMPANY_MUTATION } from '@/graphql/mutations';
+import { USERS_SELECT_QUERY } from '@/graphql/queries';
 
 export const CreatePage = () => {
 
@@ -29,6 +30,14 @@ export const CreatePage = () => {
         }
     });
 
+    const { selectProps, queryResults } = useSelect({
+        resource: 'users',
+        optionLabel: 'name',
+        meta: {
+            gqlQuery: USERS_SELECT_QUERY
+        }
+    })
+
   return (
     <CompanyList>
         <Modal
@@ -49,6 +58,28 @@ export const CreatePage = () => {
                 >
                     <Input 
                         placeholder='Please enter a Company Name'
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    label="Sales"
+                    name="salesOwnerId"
+                    rules={[{ required: true }]}
+                >
+                    <Select 
+                        placeholder='Please select a Sales Owner'
+                        {...selectProps}
+                        options={
+                            queryResults.data?.data.map((user) => ({
+                                values: user.id,
+                                label: (
+                                    <SelectOptionWithAvatar 
+                                        name={user.name}
+                                        avatarUrl={user.avatarUrl ?? undefined}
+                                    />
+                                )
+                            }))
+                        }
                     />
                 </Form.Item>
             </Form>
